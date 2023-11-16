@@ -3,16 +3,17 @@
 #' @noRd
 
 basePlot <- function(image, ratio, palette, alpha = 1){
-  if(!is.data.frame(image) | c("x", "y", "value") %in% names(image)){
+  if(any(!(is.data.frame(image) &
+           c("x", "y", "value") %in% names(image)))){
     stop("Input image is not the correct data type. Please Input a dataframe containing x and y as coordinates and value as voxel value.")
   }
   g <- ggplot() +
-    scale_fill_gradientn("base", palette) +
+    scale_fill_gradientn("base", colours = palette) +
     guides(fill = "none") +
     coord_fixed(
       ratio = ratio,
-      xlim = c(1, xDim),
-      ylim = c(1, yDim),
+      xlim = c(1, max(image$x)),
+      ylim = c(1, max(image$y)),
       expand = TRUE,
       clip = "on"
     )

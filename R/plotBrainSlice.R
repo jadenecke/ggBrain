@@ -27,6 +27,7 @@ plotBrainSlice <- function(image,
   if(is.null(mask)){
     image <- prepImageForPlotting(input = image,
                                   dimIndex = dimIndex,
+                                  dimValue = dimValue,
                                   paletteRange = paletteImageRange,
                                   inputPixdim = imagePixdim
     )
@@ -38,9 +39,12 @@ plotBrainSlice <- function(image,
                                        paletteImageRange = paletteImageRange,
                                        paletteMaskRange = paletteMaskRange,
                                        orientation = orientation)
+    image <- li[["image"]]
+    mask <- li[["mask"]]
   }
 
-  g <- basePlot(image = image, ratio = ratio, palette = paletteImage, alpha = alpha)
+
+  g <- basePlot(image = image, ratio = attr(image, "ratio"), palette = paletteImage, alpha = alpha)
   if(!is.null(mask)){
     g <- overlayPlot(plot = g, overlay = mask, ratio = ratio, palette = paletteMask)
   }

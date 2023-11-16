@@ -12,7 +12,7 @@
 
 
 ggBrainTheme <- function(base_size = 12,
-                     base_family = "") {
+                     base_family = "", background = "pink") {
   theme_grey(base_size = base_size, base_family = base_family) %+replace%
     theme(
       # Specify axis options
@@ -39,7 +39,7 @@ ggBrainTheme <- function(base_size = 12,
         angle = -90
       ),
       # Specify plot options
-      plot.background = element_rect(color = "black", fill = "black"),
+      plot.background = element_rect(fill = background, color = background),
       plot.title = element_blank(),
       plot.margin = unit(c(0, 0, 0, 0), "cm")
     )

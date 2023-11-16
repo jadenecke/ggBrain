@@ -34,9 +34,12 @@ imageDimReduction <-
         )
       )
     }
-    return(eval(parse(text = paste0(
+    ratio <- do.call(`/`, as.list(imageDim[-dimIndex]))
+    mat <- eval(parse(text = paste0(
       "image[", paste0(unlist(lapply(seq_along(imageDim), function(i) {
         paste0("", dimValue[dimIndex == i])
       })), collapse = ",") , "]"
-    ))))
+    )))
+    attr(mat, "ratio") <- ratio
+    return(mat)
   }
