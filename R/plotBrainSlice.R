@@ -16,7 +16,7 @@ plotBrainSlice <- function(image,
                            dimValue,
                            mask = NULL,
                            orientation = "RAS",
-                           palette_mask = palette_heat,
+                           paletteMask = palette_heat,
                            imagePixdim = NULL,
                            maskPixdim = NULL,
                            paletteMaskRange = NULL,
@@ -40,30 +40,11 @@ plotBrainSlice <- function(image,
                                        orientation = orientation)
   }
 
-
-  g <- ggplot() +
-    geom_tile(data = image, aes(Var1, Var2, fill = value),
-              color = NA,
-              linewidth = 0,
-              width=1,
-              alpha = alpha) +
-    scale_fill_gradient("base", low = "black", high = "white") +
-    guides(fill = "none") +
-    new_scale("fill") +
-    geom_tile(data = mask,
-              aes(Var1, Var2, fill = value), color = NA,
-              alpha = 1,
-              linewidth = 0,
-              width=1) +
-    scale_fill_gradientn("wScoreMap", colours = palette, limits = maskRange) +
-    theme_MRI() +
-    coord_fixed(
-      ratio = ratio,
-      xlim = c(1, xDim),
-      ylim = c(1, yDim),
-      expand = TRUE,
-      clip = "on"
-    )
+  g <- basePlot(image = image, ratio = ratio, palette = paletteImage, alpha = alpha)
+  if(!is.null(mask)){
+    g <- overlayPlot(plot = g, overlay = mask, ratio = ratio, palette = paletteMask)
+  }
+  g <- g + ggBrainTheme()
   return(g)
 }
 
